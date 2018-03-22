@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+		/*	
+			1 Object.create 函数 (JavaScript)
+			创建一个具有指定原型且可选择性地包含指定属性的对象
+			Object.create(prototype, descriptors)
+			
+			prototype
+			必需。  要用作原型的对象。  可以为 null。
+			
+			descriptors
+			可选。  包含一个或多个属性描述符的 JavaScript 对象。  
+			“数据属性”是可获取且可设置值的属性。  数据属性描述符包含 value 特性，以及 writable、enumerable 和 configurable 特性。  如果未指定最后三个特性，则它们默认为 false。  只要检索或设置该值，“访问器属性”就会调用用户提供的函数。  访问器属性描述符包含 set 特性和/或 get 特性。  有关详细信息，请参阅 Object.defineProperty 函数 (JavaScript)。
+			
+			var newObj = Object.create(null, {
+            size: {
+                value: "large",
+                enumerable: true
+            },
+            shape: {
+                value: "round",
+                enumerable: true
+            }
+        });
+
+		document.write(newObj.size + "<br/>");
+		document.write(newObj.shape + "<br/>");
+		document.write(Object.getPrototypeOf(newObj));
+	==========================================================		
+			2 Object.defineProperties 函数 (JavaScript)
+				将一个或多个属性添加到对象，并/或修改现有属性的特性
+				object.defineProperties(object, descriptors)
+			 	参数
+			 	object
+					必需。  对其添加或修改属性的对象。  这可以是本机 JavaScript 对象或 DOM 对象。  
+				descriptors
+				必需。  包含一个或多个描述符对象的 JavaScript 对象。  每个描述符对象描述一个数据属性或访问器属性
+				var newLine = "<br />";
+				var obj = {};
+			Object.defineProperties(obj, {
+			    newDataProperty: {
+			        value: 101,
+			        writable: true,
+			        enumerable: true,
+			        configurable: true
+			    },
+			    newAccessorProperty: {
+			        set: function (x) {
+			            document.write("in property set accessor" + newLine);
+			            this.newaccpropvalue = x;
+			        },
+			        get: function () {
+			            document.write("in property get accessor" + newLine);
+			            return this.newaccpropvalue;
+			        },
+			        enumerable: true,
+			        configurable: true
+			    }});
+			
+				// Set the accessor property value.
+				obj.newAccessorProperty = 10;
+				document.write ("newAccessorProperty value: " + obj.newAccessorProperty + newLine);
+				
+				// Output:
+				// in property set accessor
+				// in property get accessor
+				// newAccessorProperty value: 10
+		=============================================================================================
+		obj.defineProperty
+		Object.defineProperty 函数 (JavaScript)
+			将属性添加到对象，或修改现有属性的特性
+			
+			Object.defineProperty(object, propertyname, descriptor)
+			
+			object
+			必需。  要在其上添加或修改属性的对象。  这可能是一个本机 JavaScript 对象（即用户定义的对象或内置对象）或 DOM 对象。  
+			propertyname
+			必需。  一个包含属性名称的字符串。  
+			descriptor
+			必需。  属性描述符。  它可以针对数据属性或访问器属性
+			var newLine = "<br />";
+			var obj = {};
+			Object.defineProperty(obj, "newDataProperty", {
+			    value: 101,
+			    writable: true,
+			    enumerable: true,
+			    configurable: true
+			    
+			});
+			
+			// Set the property value.
+			obj.newDataProperty = 102;
+			document.write("Property value: " + obj.newDataProperty + newLine);
+			
+			// Output:
+			// Property value: 102
+			
+			若要列出对象属性，请将以下代码添加到此示例中。
+
+			var names = Object.getOwnPropertyNames(obj);
+			for (var i = 0; i < names.length; i++) {
+			    var prop = names[i];
+			
+			    document.write(prop + ': ' + obj[prop]);
+			    document.write(newLine);
+			}
+			
+			// Output:
+			//  newDataProperty: 102
+	===========================================================================================
+			
+	
+	
+	
+	
+	
+			*/
+		</script>
+	</body>
+</html>

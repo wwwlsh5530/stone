@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>aa</title>
+	</head>
+	<body>
+		<div id="box" style="height: 100px;">
+			
+		</div>
+		<script type="text/javascript">
+			window.onload = function(){
+			var obox = document.getElementById("box")
+				setInterval(function(){
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth()+1;
+				var dates = date.getDate();
+				var hour = date.getHours();
+				var min = date.getMinutes();
+				var sec = date.getSeconds();	
+				var week = date.getDay()
+				
+				
+				var fdate = year+"年"+month+"月"+dates+"日"+hour+"时"+min+"分"+sec+"秒";
+				obox.innerHTML = fdate;
+					
+				},1000)
+				// 年月日
+//				var date = new Date();
+//				var year = date.getFullYear();
+//				var month = date.getMonth();
+//				var dates = date.getDate();
+//				//时分秒
+//				var hour = date.getHours();
+//				var min = date.getMinutes();
+//				var sec = date.getSeconds();
+//				//星期数
+//				var week = date.getDay()//0 代表的是星期天   6代表的是星期六  需要去判断
+//				
+//				//毫秒    1秒=1000毫秒
+//				var mi = date.getMilliseconds()
+//				
+//				//获取毫秒数    1970年 1月 1日 0时 0分 0秒开始
+//				var ms = date.getTime()
+			//alert(year+"年"+month+"月"+dates+"日")	
+			function getweek(a){
+				
+					switch (a){
+						case 0:
+						   return "星期天";
+							break;
+						case 1:
+							return "星期一";
+							break;
+						case 2:
+							return "星期二";
+							break;
+						case 3:
+							return "星期三";
+							break;
+						case 4:
+							return "星期四";
+							break;
+						case 5:
+							return "星期五";
+							break;
+						case 6:
+							return "星期六";
+							break;
+						default:
+							return "";
+							break;
+					}
+				}
+			}
+			
+			
+			
+			
+		</script>
+	</body>
+</html>

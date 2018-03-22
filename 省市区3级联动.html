@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+	<head>
+		<!--声明当前页面编码集(中文编码<gbk,gb2312>,国际编码<utf-8>)-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="keywords" content="关键词,关键词">
+		<meta name="description" content="">
+		<title> html </title>
+        <style type="text/css">
+			*{padding:0px;margin:0px;}
+		</style>
+	</head>
+<body>
+	
+	省：<select style="width:100px;" id="pre" onchange="chg(this);">
+			<option value="-1">请选择</option>
+		</select>
+	市：<select style="width:100px;" id="city" onchange="chg2(this);">
+		</select>
+	区：<select style="width:100px;" id="area">
+		</select>
+	
+	
+	<script>
+		//声明省
+		var pres = ["北京","上海","山东"];
+		//声明市
+		var cities = [
+			["东城","海淀","朝阳"],
+			["浦东","高区"],
+			["青岛","潍坊","烟台"]
+		];
+		//声明区
+		var areas = [
+			[
+				["东城一","东城二","东城三"],
+				["海淀一","海淀二","海淀三"],
+				["朝阳一","朝阳二","朝阳三"]
+			],
+			[
+				["浦东一","浦东二","浦东三"],
+				["高区一","高区二","高区三"]
+			],
+			[
+				["青岛一","青岛二"],
+				["潍坊一","潍坊二"],
+				["烟台一","烟台二"]
+			]
+		];
+
+		var preEle = document.getElementById("pre");
+		var cityEle = document.getElementById("city");
+		var areaEle = document.getElementById("area");
+		var val = 0;
+	
+		for(var i=0;i<pres.length;i++){
+			var op = new Option(pres[i],i);
+			//添加
+			preEle.options.add(op);
+		};
+		
+		//触发省份onchange事件
+		function chg(obj){
+			//获取值
+			val = obj.value;
+			if(val == -1){
+				cityEle.options.length = 0;
+				areaEle.options.length = 0;
+			}
+			if(val>-1){
+				//获取city
+				var cs = cities[val];
+				//获取默认的区
+				var as = areas[val][0];
+				//选完清空一次
+				cityEle.options.length = 0;
+				areaEle.options.length = 0;
+				for(var i=0;i<cs.length;i++){
+					var op = new Option(cs[i],i);
+					cityEle.options.add(op);
+				}
+				for(var i=0;i<as.length;i++){
+					var op = new Option(as[i],i);
+					areaEle.options.add(op);
+				}
+			}
+		};
+		//触发市onchange事件
+		function chg2(obj){
+			var index = obj.value;
+			var as = areas[val][index];
+			areaEle.options.length = 0;
+			for(var i=0;i<as.length;i++){
+				var op = new Option(as[i],i);
+				areaEle.options.add(op);
+			}
+		}	
+	</script>
+</body>
+
+</html>

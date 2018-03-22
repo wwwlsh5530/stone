@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+	<head>
+		<!--声明当前页面编码集(中文编码<gbk,gb2312>,国际编码<utf-8>)-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="keywords" content="关键词,关键词">
+		<meta name="description" content="">
+		<title> html </title>
+        <style type="text/css">
+			*{padding:0px;margin:0px;}
+			body{background:gray;}
+			/*wrap start*/
+			#wrap{width:400px;height:500px;margin:50px 0 0 50px;box-shadow:0 0 10em #fff;}
+			#wrap .pic{width:400px;height:400px;position:relative;}
+			
+			#wrap .pic .pic-cover{position:absolute;}
+			/*遮盖层*/
+			#wrap .pic .pic-cover .cover{background:url(img/cover.png);/*width:200px;height:200px;*/position:absolute;top:0;left:0;cursor:move;display:none;}
+			#wrap .pic .pic-cover img{display:block;}
+			
+		
+			#wrap .tab{width:400px;height:58px;margin-top:20px;}
+			#wrap .tab ul li{list-style:none;float:left;width:50px;height:50px;border:2px solid gray;margin: 0 13px;cursor:pointer;transition:border .5s;position:relative;}
+			#wrap .tab ul li.on{border:2px solid #f60;}
+			#wrap .tab ul li img{position:absolute;}
+
+			#wrap .pic .pic-cover .show{width:400px;height:400px;background:pink;position:absolute;top:0;right:-410px;background:url(img/1.jpg);display:none;}
+			/*wrap end*/
+		</style>
+	</head>
+<body>
+	<div style="height:800px;"></div>
+	<!--wrap start-->
+	<div id="wrap">
+		<div class="pic">
+			<div class="pic-cover">
+				<img src="img/1.jpg" width="400" height="400"/>
+				<div class="cover"></div>
+				<div class="show"></div>
+			</div>
+		</div>
+		<div class="tab">
+			<ul>
+				<li class="on"><img src="img/1.jpg"/></li>
+				<li><img src="img/2.jpg"/></li>
+				<li><img src="img/3.jpg"/></li>
+				<li><img src="img/4.jpg"/></li>
+				<li><img src="img/5.jpg"/></li>
+			</ul>
+		</div>
+	</div>
+	<!--wrap end-->
+
+	<!--引入js官方类库jQuery-->
+	<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+	<script	type="text/javascript">
+		$(function(){
+			var $tabli = $("#wrap .tab ul li");
+			var $picimg = $("#wrap .pic img");
+			var $tabimg = $("#wrap .tab ul li img");
+			var $picCover = $("#wrap .pic .pic-cover");
+			var $cover = $("#wrap .pic .pic-cover .cover");
+			var $show = $("#wrap .pic .pic-cover .show");
+			var imgArr = [];//用来存放图片宽高比属性
+			var index = 0;
+			//执行初始化方法
+			init();
+			$tabli.hover(function(){
+				index = $(this).index();
+				//给li添加on样式
+				$(this).addClass("on").siblings().removeClass("on");
+				//获取小图片的src属性
+				var src = $(this).find("img").attr("src");//getAttribute
+				//给show设置src属性
+				$show.css("background-image","url("+src+")");
+				//给大图设置src属性
+				$picimg.attr({
+					src:src,
+					width:imgArr[index].width*400,
+					height:imgArr[index].height*400
+				});
+				$picCover.css({
+					top:(400-imgArr[index].height*400)/2,
+					left:(400-imgArr[index].width*400)/2
+				});
+				
+			});
+
+			//初始化底部小图片的位置
+			function init(){
+				$tabimg.each(function(i){
+					//获取图片的宽度
+					var imgWidth = $(this).width();
+					//获取图片的高度
+					var imgHeight = $(this).height();
+					if(imgWidth >= imgHeight){
+						$(this).css({
+							width:50,   
+							height:50/imgWidth*imgHeight,   
+							top:(50-50/imgWidth*imgHeight)/2
+						});
+						imgArr[i] = {width:1,height:imgHeight/imgWidth,imgW:imgWidth,imgH:imgHeight};
+					}else{
+						$(this).css({
+							width:50/imgHeight*imgWidth,
+							height:50,
+							left:(50-(50/imgHeight*imgWidth))/2
+						});
+						imgArr[i] = {width:imgWidth/imgHeight,height:1,imgW:imgWidth,imgH:imgHeight};
+					}
+				});
+			};
+
+			//鼠标移入pic-cover中
+			//$picCover.mouseover(function(e){
+				$picCover.mousemove(function(e){
+					//更改cover的大小
+					var a = $show.width()*$picCover.width()/imgArr[index].imgW;
+					$cover.css({
+						width:a,
+						height:a
+					});
+					$cover.show();
+					$show.show();
+					var e = e||window.event;
+					var x = e.pageX;
+					var y = e.pageY;
+					var picCoverX = $picCover.offset().left;
+					var picCoverY = $picCover.offset().top;
+					var minusX = x - picCoverX - $cover.width()/2;
+					var minusY = y - picCoverY - $cover.height()/2;
+					var maxX = $picCover.width() - $cover.width();
+					var maxY = $picCover.height() - $cover.height();
+					if(minusX<0)minusX=0;
+					if(minusY<0)minusY=0;
+					if(minusX>maxX)minusX = maxX;
+					if(minusY>maxY)minusY = maxY;
+					$cover.css({
+						left:minusX,
+						top:minusY
+					});
+
+					//将show跟随鼠标移动
+					var bitX = minusX/$picCover.width();
+					var bitY = minusY/$picCover.height();
+					var imgWidth = imgArr[index].imgW;
+					var imgHeight = imgArr[index].imgH;
+					$show.css("background-position",-bitX*imgWidth+"px "+(-bitY*imgHeight)+"px");
+		//		});
+			}).mouseout(function(){
+				//遮盖层隐藏
+				$cover.hide();
+				$show.hide();
+			});
+
+			//鼠标移入到show的时候
+			$show.mouseover(function(){
+				//遮盖层隐藏
+				$cover.hide();
+				$show.hide();
+			}).mousemove(function(){
+				return false;
+			});
+		});
+	</script>
+</body>
+
+</html>

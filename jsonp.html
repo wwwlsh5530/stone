@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>stone</title>
+		<style>
+			*{margin: 0;padding:0;}
+			ul,li{list-style: none;}
+			#box{width:500px; height:50px;margin:100px auto;border: 1px solid #666;;}
+			#txt{width:500px;height:50px;border:0;outline: none;text-indent:1em;}
+			#list li{text-indent: 1em;border-bottom: 1px solid #666;height:30px;line-height: 30px;}
+			#list li a{text-decoration: none; display: block;}
+		</style>
+	</head>
+	<body>
+		
+		<div id="box">
+			<input type="text" name="txt" id="txt" value="" />
+			<ul id="list">
+				
+			</ul>
+		</div>
+		<script>
+			var txt = document.getElementById("txt");
+			var list = document.getElementById("list");
+			txt.onkeyup = function(){
+				var val = this.value;
+				var os = document.createElement("script");
+				   //os.src = "https://sug.so.360.cn/suggest?callback=stone&fields=word,obdata&word="+val+"";
+				   os.src ="https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd="+val+"&cb=stone";
+				document.body.appendChild(os);
+				document.body.removeChild(os);
+			}
+			function stone(myJson){
+				var data = myJson.s;
+				var str="";
+				for(var i=0; i<data.length;i++){
+					//str+="<li><a href ='https://www.so.com/s?&q="+data[i]+"' target = _blank>"+data[i]+"</a></li>"
+					str+="<li><a href ='https://www.baidu.com/s?i&wd="+data[i]+"' target = _blank>"+data[i]+"</a></li>"
+					
+				}
+				list.innerHTML = str;
+			}
+			list.onmouseover= function(e){
+				var e = e || event;
+				var targe = e.target || e.sreElement;
+				 targe.style.background = "#ccc"
+
+			}
+			list.onmouseout= function(e){
+				var e = e || event;
+				var targe = e.target || e.sreElement;
+				 targe.style.background = "";	
+			}
+		</script>
+	</body>
+</html>
